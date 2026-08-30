@@ -1,0 +1,45 @@
+#!/bin/bash
+
+
+# if less than two arguments show usage
+if [    $# -le 1 ]; then
+    echo -e "\nUsage: $0 <new-plugin-name> <new-plugin-namespace>"
+    echo -e "\nExample: $0 "Awesome Plugin" AwesomePlugin\n"
+    exit 1
+fi
+
+SEDOPTION="-i"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  SEDOPTION="-i ''"
+fi
+
+OLDPLUGINNAME="PLUGIN_NAME"
+OLDNAMESPACE="PLUGIN_NAMESPACE"
+
+OLDPLUGIN_CSFILE="./addons/$OLDNAMESPACE/${OLDNAMESPACE}Plugin.cs"
+NEWPLUGIN_CSFILE="./addons/$OLDNAMESPACE/${2}Plugin.cs"
+
+FILES=(
+    "./README.md"
+    "./project.godot"
+    "./addons/$OLDNAMESPACE/plugin.cfg"
+    "$OLDPLUGIN_CSFILE"
+)
+
+# rename namespace references in file
+sed $SEDOPTION "s/$OLDNAMESPACE/$2/g" "${FILES[@]}"
+
+# rename plugin name references in file
+sed $SEDOPTION "s/$OLDPLUGINNAME/$1/g" "${FILES[@]}"
+
+# rename files via namespace
+mv "$OLDPLUGIN_CSFILE" "$NEWPLUGIN_CSFILE";
+
+# rename plugin folder
+mv "./addons/$OLDNAMESPACE" "./addons/${2}";
+
+# echo "package scope: $NEWPACKAGESCOPE"
+echo "package name: $1"
+echo "package namespace: $2"
+# echo "!! init script should be removed after package setup !!"
+# echo "!! remember to DELETE temporary ignored files from the .gitignore !!"
