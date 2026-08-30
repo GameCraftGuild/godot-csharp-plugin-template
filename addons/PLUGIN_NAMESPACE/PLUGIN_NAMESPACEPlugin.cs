@@ -1,10 +1,10 @@
 #if TOOLS
-namespace GCG.ComponentSystem;
+namespace PLUGIN_NAMESPACE;
 using Godot;
 using System;
 
 [Tool]
-public partial class ComponentSystemPlugin : EditorPlugin
+public partial class PLUGIN_NAMESPACEPlugin : EditorPlugin
 {
 	public override void _EnterTree()
 	{
