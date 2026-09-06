@@ -4,7 +4,7 @@
 # if less than two arguments show usage
 if [    $# -le 1 ]; then
     echo -e "\nUsage: $0 <new-plugin-name> <new-plugin-namespace>"
-    echo -e "\nExample: $0 "Awesome Plugin" AwesomePlugin\n"
+    echo -e "\nExample: $0 \"Awesome Plugin\" AwesomePlugin\n"
     exit 1
 fi
 
